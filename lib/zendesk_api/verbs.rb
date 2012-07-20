@@ -1,12 +1,11 @@
 module ZendeskAPI
   # Creates put, post, delete class methods for custom resource methods.
   module Verbs
-    include Rescue
 
     class << self
       private
 
-      # @macro [attach] container.create_verb 
+      # @macro [attach] container.create_verb
       #   @method $1(method)
       #   Executes a $1 using the passed in method as a path.
       #   Reloads the resource's attributes if any are in the response body.
@@ -30,8 +29,6 @@ module ZendeskAPI
 
             true
           end
-
-          rescue_client_error method, :with => false
         end
       end
     end

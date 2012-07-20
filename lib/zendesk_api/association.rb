@@ -1,5 +1,5 @@
 module ZendeskAPI
-  # Represents an association between two resources 
+  # Represents an association between two resources
   class Association
     # @return [Hash] Options passed into the association
     attr_reader :options
@@ -7,7 +7,7 @@ module ZendeskAPI
     # Options to pass in
     # * class - Required
     # * parent - Parent instance
-    # * path - Optional path instead of resource name 
+    # * path - Optional path instead of resource name
     def initialize(options = {})
       @options = Hashie::Mash.new(options)
     end
@@ -107,7 +107,6 @@ module ZendeskAPI
     end
 
     module ClassMethods
-      include Rescue
 
       def associations
         @assocations ||= []
@@ -145,10 +144,8 @@ module ZendeskAPI
           elsif found = method_missing(resource_name.to_sym)
             wrap_resource(found, klass, class_level_association)
           elsif klass.ancestors.include?(DataResource)
-            rescue_client_error do
-              response = @client.connection.get(instance_association.generate_path(:with_parent => true))
-              klass.new(@client, response.body[klass.singular_resource_name].merge(:association => instance_association))
-            end
+            response = @client.connection.get(instance_association.generate_path(:with_parent => true))
+            klass.new(@client, response.body[klass.singular_resource_name].merge(:association => instance_association))
           end
 
           send("#{id_column}=", resource.id) if resource && has_key?(id_column)

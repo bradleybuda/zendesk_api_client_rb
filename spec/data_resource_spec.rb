@@ -109,11 +109,11 @@ describe ZendeskAPI::DataResource do
         context "with a client error" do
           before(:each) { stub_request(:get, %r{test_resources/\d+/foo}).to_return(:status => 500) }
 
-          it "should handle it properly" do
-            expect { silence_logger{ subject.foo.should be_nil } }.to_not raise_error
+          it "should raise the error" do
+            expect { silence_logger{ subject.foo.should be_nil } }.to raise_error
           end
         end
-        
+
         context "with an explicit path set" do
           before(:each) do
             ZendeskAPI::TestResource.has :foo, :path => "blergh"
@@ -226,4 +226,3 @@ describe ZendeskAPI::DataResource do
     end
   end
 end
-

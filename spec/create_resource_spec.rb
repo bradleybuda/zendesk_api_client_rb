@@ -10,7 +10,7 @@ describe ZendeskAPI::CreateResource do
     end
 
     it "should return instance of resource" do
-      subject.create(client, attr).should be_instance_of(subject) 
+      subject.create(client, attr).should be_instance_of(subject)
     end
 
     context "with client error" do
@@ -19,7 +19,7 @@ describe ZendeskAPI::CreateResource do
       end
 
       it "should handle it properly" do
-        expect { silence_logger { subject.create(client, attr).should be_nil } }.to_not raise_error
+        expect { silence_logger { subject.create(client, attr).should be_nil } }.to raise_error
       end
     end
   end
@@ -36,4 +36,3 @@ describe ZendeskAPI::CreateResource do
     end
   end
 end
-

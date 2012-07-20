@@ -132,7 +132,7 @@ describe ZendeskAPI::Collection do
       end
 
       it "should properly be handled" do
-        silence_logger { subject.fetch(true).should be_empty }
+        expect { silence_logger { subject.fetch(true) } }.to raise_error
       end
     end
 

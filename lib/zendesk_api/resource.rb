@@ -7,7 +7,6 @@ module ZendeskAPI
   # Represents a resource that only holds data.
   class Data
     include Associations
-    include Rescue
 
     class << self
       # The singular resource name taken from the class name (e.g. ZendeskAPI::Ticket -> ticket)
@@ -68,7 +67,7 @@ module ZendeskAPI
 
     # Has this been object been created server-side? Does this by checking for an id.
     def new_record?
-      id.nil? 
+      id.nil?
     end
 
     # Returns the path to the resource
@@ -125,7 +124,7 @@ module ZendeskAPI
     extend Read
     include Create
 
-    include Update 
+    include Update
     include Destroy
   end
 

@@ -27,8 +27,8 @@ describe ZendeskAPI::Playlist do
         stub_request(:get, %r{play/next}).to_return(:status => 500)
       end
 
-      it "should be properly handled" do
-        expect { subject.next.should be_nil }.to_not raise_error
+      it "should be raised" do
+        expect { subject.next.should be_nil }.to raise_error
       end
     end
 
@@ -61,8 +61,8 @@ describe ZendeskAPI::Playlist do
         stub_request(:delete, %r{play}).to_return(:status => 500)
       end
 
-      it "should be properly handled" do
-        expect { subject.destroy.should be_false }.to_not raise_error
+      it "should be raised" do
+        expect { subject.destroy.should be_false }.to raise_error
       end
     end
   end
@@ -74,21 +74,8 @@ describe ZendeskAPI::Playlist do
         stub_request(:get, %r{play/next}).to_return(:body => json)
       end
 
-      it "should be able to be created" do
-        new_playlist = subject.new(client, 1)
-        new_playlist.should_not be_nil
-      end
-
-      it "should retry initialization on #next" do
-        new_playlist = subject.new(client, 1)
-        new_playlist.should_receive(:init_playlist).and_return(:true)
-        new_playlist.next
-      end
-
-      it "should retry initialization on #each" do
-        new_playlist = subject.new(client, 1)
-        new_playlist.should_receive(:next).and_return(Object.new, nil)
-        new_playlist.each {|arg| :block }
+      it "should not be able to be created" do
+        expect { subject.new(client, 1) }.to raise_error
       end
     end
   end

@@ -2,7 +2,6 @@ require 'faraday'
 require 'faraday_middleware'
 
 require 'zendesk_api/version'
-require 'zendesk_api/rescue'
 require 'zendesk_api/configuration'
 require 'zendesk_api/collection'
 require 'zendesk_api/lru_cache'
@@ -16,7 +15,6 @@ require 'zendesk_api/middleware/response/parse_iso_dates'
 
 module ZendeskAPI
   class Client
-    include Rescue
 
     # @return [Configuration] Config instance
     attr_reader :config
@@ -50,8 +48,6 @@ module ZendeskAPI
       return @current_account if @current_account && !reload
       @current_account = Hashie::Mash.new(connection.get('account/resolve').body)
     end
-
-    rescue_client_error :current_account
 
     # Returns the current locale
     def current_locale(reload = false)
@@ -122,7 +118,7 @@ module ZendeskAPI
     # Uses middleware according to configuration options.
     #
     # Request logger if logger is not nil
-    # 
+    #
     # Retry middleware if retry is true
     def build_connection
       Faraday.new(config.options) do |builder|

@@ -1,6 +1,5 @@
 module ZendeskAPI
   class Playlist
-    include Rescue
 
     attr_reader :ticket
     attr_accessor :id
@@ -25,7 +24,7 @@ module ZendeskAPI
 
     def next
       init_playlist unless initialized?
-      return false if !initialized? || destroyed? 
+      return false if !initialized? || destroyed?
 
       response = @client.connection.get("play/next")
 
@@ -40,7 +39,7 @@ module ZendeskAPI
 
     def destroy
       response = @client.connection.delete("play")
-      @destroyed = response.status == 204 
+      @destroyed = response.status == 204
     end
 
     def destroyed?
@@ -57,8 +56,5 @@ module ZendeskAPI
       response = @client.connection.get("views/#{id}/play")
       @initialized = response.status == 302
     end
-
-    rescue_client_error :next, :init_playlist
-    rescue_client_error :destroy, :with => false
   end
 end

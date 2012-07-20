@@ -10,7 +10,6 @@ module ZendeskAPI
   class Collection
     SPECIALLY_JOINED_PARAMS = [:include, :ids, :only]
 
-    include Rescue
 
     # @return [ZendeskAPI::Association] The class association
     attr_reader :association
@@ -156,8 +155,6 @@ module ZendeskAPI
       @resources
     end
 
-    rescue_client_error :fetch, :with => lambda { Array.new }
-
     # Alias for fetch(false)
     def to_a
       fetch
@@ -168,7 +165,7 @@ module ZendeskAPI
       @resources = collection
     end
 
-    # Find the next page. Does one of three things: 
+    # Find the next page. Does one of three things:
     # * If there is already a page number in the options hash, it increases it and invalidates the cache, returning the new page number.
     # * If there is a next_page url cached, it executes a fetch on that url and returns the results.
     # * Otherwise, returns an empty array.
@@ -184,12 +181,12 @@ module ZendeskAPI
       end
     end
 
-    # Find the previous page. Does one of three things: 
+    # Find the previous page. Does one of three things:
     # * If there is already a page number in the options hash, it increases it and invalidates the cache, returning the new page number.
     # * If there is a prev_page url cached, it executes a fetch on that url and returns the results.
     # * Otherwise, returns an empty array.
     def prev
-      if @options["page"] && @options["page"] > 1 
+      if @options["page"] && @options["page"] > 1
         clear_cache
         @options["page"] -= 1
       elsif @prev_page

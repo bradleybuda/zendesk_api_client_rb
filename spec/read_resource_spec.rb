@@ -20,18 +20,15 @@ describe ZendeskAPI::ReadResource do
     end
 
     context "with client error" do
-      it "should handle 500 properly" do
+      it "should raise on 500" do
         stub_request(:get, %r{test_resources/#{id}}).to_return(:status => 500)
-        client.config.logger.should_receive(:warn).at_least(:once)
-        subject.find(client, :id => id).should == nil
+        expect { subject.find(client, :id => id) }.to raise_error
       end
 
       it "should handle 404 properly" do
         stub_request(:get, %r{test_resources/#{id}}).to_return(:status => 404)
-        client.config.logger.should_receive(:warn).at_least(:once)
-        subject.find(client, :id => id).should == nil
+        expect { subject.find(client, :id => id) }.to raise_error
       end
     end
   end
 end
-

@@ -19,8 +19,8 @@ describe ZendeskAPI::Resource do
           stub_request(:put, %r{test_resources/#{id}}).to_return(:status => 500)
         end
 
-        it "should handle it properly" do
-          expect { silence_logger{ subject.update(client, :id => id).should be_false } }.to_not raise_error
+        it "should raise it" do
+          expect { silence_logger{ subject.update(client, :id => id).should be_false } }.to raise_error
         end
       end
     end
@@ -44,8 +44,8 @@ describe ZendeskAPI::Resource do
           stub_request(:delete, %r{test_resources/#{id}}).to_return(:status => 500)
         end
 
-        it "should handle it properly" do
-          expect { silence_logger{ subject.destroy(client, :id => id).should be_false } }.to_not raise_error
+        it "should raise it" do
+          expect { silence_logger{ subject.destroy(client, :id => id).should be_false } }.to raise_error
         end
       end
     end
@@ -68,8 +68,8 @@ describe ZendeskAPI::Resource do
           stub_request(:delete, %r{test_resources}).to_return(:status => 500)
         end
 
-        it "should return false and not set destroyed" do
-          silence_logger{ subject.destroy.should be_false }
+        it "should raise the error and not set destroyed" do
+          expect { silence_logger{ subject.destroy.should be_false } }.to raise_error
           subject.destroyed?.should be_false
         end
       end
@@ -128,8 +128,8 @@ describe ZendeskAPI::Resource do
         stub_request(:put, %r{test_resources/1}).to_return(:status => 500)
       end
 
-      it "should be properly handled" do
-        expect { silence_logger { subject.save.should be_false } }.to_not raise_error
+      it "should be raised" do
+        expect { silence_logger { subject.save.should be_false } }.to raise_error
       end
     end
 
@@ -270,8 +270,8 @@ describe ZendeskAPI::Resource do
             stub_request(verb.to_sym, %r{test_resources/1/#{method}}).to_return(:status => 500)
           end
 
-          it "should return false" do
-            expect { silence_logger{ subject.send(method).should be_false } }.to_not raise_error
+          it "should raise it" do
+            expect { silence_logger{ subject.send(method) } }.to raise_error
           end
         end
       end
